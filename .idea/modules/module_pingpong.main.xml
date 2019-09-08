@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_pingpong.main" default="compile.module.pingpong.main">
+  <dirname property="module.pingpong.main.basedir" file="${ant.file.module_pingpong.main}"/>
+  
+  <property name="module.jdk.home.pingpong.main" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.pingpong.main" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.pingpong.main" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.pingpong.main" value="-encoding UTF-8 -source 8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="pingpong.main.output.dir" value="${module.pingpong.main.basedir}/../../build/classes/java/main"/>
+  <property name="pingpong.main.testoutput.dir" value="${module.pingpong.main.basedir}/../../build/classes/java/main"/>
+  
+  <path id="pingpong.main.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="pingpong.main.module.production.classpath">
+    <path refid="${module.jdk.classpath.pingpong.main}"/>
+  </path>
+  
+  <path id="pingpong.main.runtime.production.module.classpath">
+    <pathelement location="${pingpong.main.output.dir}"/>
+  </path>
+  
+  <path id="pingpong.main.module.classpath">
+    <path refid="${module.jdk.classpath.pingpong.main}"/>
+    <pathelement location="${pingpong.main.output.dir}"/>
+  </path>
+  
+  <path id="pingpong.main.runtime.module.classpath">
+    <pathelement location="${pingpong.main.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.pingpong.main">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.pingpong.main">
+    <patternset refid="excluded.from.module.pingpong.main"/>
+  </patternset>
+  
+  <path id="pingpong.main.module.sourcepath">
+    <dirset dir="${module.pingpong.main.basedir}/../../src/main">
+      <include name="java"/>
+      <include name="resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.pingpong.main" depends="compile.module.pingpong.main.production,compile.module.pingpong.main.tests" description="Compile module pingpong.main"/>
+  
+  <target name="compile.module.pingpong.main.production" depends="register.custom.compilers" description="Compile module pingpong.main; production classes">
+    <mkdir dir="${pingpong.main.output.dir}"/>
+    <javac2 destdir="${pingpong.main.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.pingpong.main}/javac">
+      <compilerarg line="${compiler.args.pingpong.main}"/>
+      <bootclasspath refid="pingpong.main.module.bootclasspath"/>
+      <classpath refid="pingpong.main.module.production.classpath"/>
+      <src refid="pingpong.main.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.pingpong.main"/>
+    </javac2>
+    
+    <copy todir="${pingpong.main.output.dir}">
+      <fileset dir="${module.pingpong.main.basedir}/../../src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.pingpong.main.basedir}/../../src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.pingpong.main.tests" depends="register.custom.compilers,compile.module.pingpong.main.production" description="compile module pingpong.main; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.pingpong.main" description="cleanup module">
+    <delete dir="${pingpong.main.output.dir}"/>
+    <delete dir="${pingpong.main.testoutput.dir}"/>
+  </target>
+</project>

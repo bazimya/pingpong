@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_pingpong" default="compile.module.pingpong">
+  <dirname property="module.pingpong.basedir" file="${ant.file.module_pingpong}"/>
+  
+  <property name="module.jdk.home.pingpong" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.pingpong" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.pingpong" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.pingpong" value="-encoding UTF-8 -source 12 -target 12 ${compiler.args}"/>
+  
+  <property name="pingpong.output.dir" value="${module.pingpong.basedir}/../../out/production/pingpong"/>
+  <property name="pingpong.testoutput.dir" value="${module.pingpong.basedir}/../../out/test/pingpong"/>
+  
+  <path id="pingpong.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="pingpong.module.production.classpath">
+    <path refid="${module.jdk.classpath.pingpong}"/>
+  </path>
+  
+  <path id="pingpong.runtime.production.module.classpath">
+    <pathelement location="${pingpong.output.dir}"/>
+  </path>
+  
+  <path id="pingpong.module.classpath">
+    <path refid="${module.jdk.classpath.pingpong}"/>
+    <pathelement location="${pingpong.output.dir}"/>
+  </path>
+  
+  <path id="pingpong.runtime.module.classpath">
+    <pathelement location="${pingpong.testoutput.dir}"/>
+    <pathelement location="${pingpong.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.pingpong">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.pingpong">
+    <patternset refid="excluded.from.module.pingpong"/>
+  </patternset>
+  
+  
+  <target name="compile.module.pingpong" depends="compile.module.pingpong.production,compile.module.pingpong.tests" description="Compile module pingpong"/>
+  
+  <target name="compile.module.pingpong.production" depends="register.custom.compilers" description="Compile module pingpong; production classes"/>
+  
+  <target name="compile.module.pingpong.tests" depends="register.custom.compilers,compile.module.pingpong.production" description="compile module pingpong; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.pingpong" description="cleanup module">
+    <delete dir="${pingpong.output.dir}"/>
+    <delete dir="${pingpong.testoutput.dir}"/>
+  </target>
+</project>
