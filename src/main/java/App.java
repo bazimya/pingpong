@@ -11,5 +11,8 @@ public class App {
         List<Object> pingPongResult = pingPong.runPingPong(intUserNumber);
         System.out.println(pingPongResult);
 //        hello
+
+
+//        bazimyas saphani
     }
 }
